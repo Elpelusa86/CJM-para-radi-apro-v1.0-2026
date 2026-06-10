@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJM · Radicación y Aprobación · Crédito Comercial · v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2433; --muted:#5b6577; --line:#dde3ee; --bg:#f3f5fa; --card:#fff;
+    --asis:#c2613a; --asis-soft:#fbeee6;
+    --tobe:#2f7fd6; --tobe-soft:#e9f3fd;
+    --pain:#e05656; --opp:#8b5cf0; --time:#1faf7a; --improve:#e0911c;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Archivo',sans-serif;color:var(--ink);
+    background:radial-gradient(1100px 560px at 10% -8%,#fdeadd 0,transparent 55%),
+               radial-gradient(1100px 560px at 92% -6%,#e0eefc 0,transparent 55%),var(--bg);
+    -webkit-font-smoothing:antialiased;}
+  .wrap{padding:30px 22px 60px;}
+  header.top{max-width:2500px;margin:0 auto 20px;}
+  .kicker{font-weight:600;letter-spacing:.3em;text-transform:uppercase;font-size:11px;color:var(--muted);}
+  h1{font-family:'Fraunces';font-weight:600;font-size:40px;line-height:1.03;margin:6px 0 8px;letter-spacing:-.01em;}
+  h1 .a{background:linear-gradient(92deg,var(--asis),var(--tobe));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{color:var(--muted);font-size:14px;max-width:1000px;line-height:1.5;}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:12px;color:var(--muted);}
+  .meta b{color:var(--ink);font-weight:600;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:13px;align-items:center;}
+  .legend span{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted);}
+  .swatch{width:22px;height:12px;border-radius:4px;display:inline-block;}
+
+  .tipwrap{max-width:2500px;margin:0 auto;}
+  .tip{display:inline-block;background:#fff;border:1px dashed var(--line);border-radius:10px;padding:7px 12px;font-size:11px;color:var(--muted);margin:0 auto 14px;}
+
+  /* Job stories banner */
+  .jobs{max-width:2500px;margin:0 auto 18px;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .job{border-radius:14px;padding:14px 18px;border:1px solid;}
+  .job.cli{background:#eef7ff;border-color:#cfe4f8;}
+  .job.com{background:#f4eefe;border-color:#dccff8;}
+  .job .who{font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px;}
+  .job.cli .who{color:#1f5fa6;}
+  .job.com .who{color:#5b3bbd;}
+  .job p{margin:0;font-size:13px;line-height:1.5;font-family:'Fraunces';font-weight:500;}
+
+  .board-scroll{overflow-x:auto;padding-bottom:14px;}
+  .board{min-width:2700px;display:grid;grid-template-columns:200px repeat(7,1fr);
+    border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--card);
+    box-shadow:0 24px 60px -36px rgba(28,36,51,.42);}
+  .corner{background:linear-gradient(135deg,#202a3c,#39455f);color:#fff;display:flex;flex-direction:column;
+    justify-content:center;padding:14px 12px;position:sticky;left:0;z-index:6;
+    border-right:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .corner .ct{font-family:'Fraunces';font-weight:600;font-size:14px;line-height:1.05;}
+  .corner .cs{font-size:9.5px;opacity:.72;margin-top:3px;}
+
+  .phase{color:#fff;padding:13px 11px;border-right:1px solid rgba(255,255,255,.22);border-bottom:1px solid var(--line);}
+  .phase:last-child{border-right:none;}
+  .phase .pn{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;opacity:.85;}
+  .phase .pt{font-family:'Fraunces';font-weight:600;font-size:14.5px;line-height:1.1;margin-top:3px;}
+  .ph1{background:linear-gradient(135deg,#d9742a,#e89254);}
+  .ph2{background:linear-gradient(135deg,#b85bb0,#c97cc1);}
+  .ph3{background:linear-gradient(135deg,#7c5cf0,#9a80f4);}
+  .ph4{background:linear-gradient(135deg,#5fa83e,#7bc25c);}
+  .ph5{background:linear-gradient(135deg,#e8a637,#f0bf63);}
+  .ph6{background:linear-gradient(135deg,#22b88f,#3dd0a6);}
+  .ph7{background:linear-gradient(135deg,#2f7fd6,#5499e2);}
+
+  .rowlabel{background:#fbfcfe;border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    padding:12px 11px;display:flex;flex-direction:column;justify-content:center;gap:4px;position:sticky;left:0;z-index:5;}
+  .rowlabel .rl-ico{font-size:15px;}
+  .rowlabel .rl-t{font-family:'Fraunces';font-weight:600;font-size:12.5px;line-height:1.12;}
+  .rowlabel .rl-s{font-size:9.5px;color:var(--muted);line-height:1.3;}
+  .cell{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:10px 10px;font-size:10.8px;line-height:1.42;}
+  .cell:last-child{border-right:none;}
+  ul.mini{margin:0;padding-left:14px;} ul.mini li{margin-bottom:3px;}
+
+  /* Bloque dual cliente externo / interno */
+  .duo{display:flex;flex-direction:column;gap:7px;}
+  .duo .seg{padding:6px 8px;border-radius:7px;border:1px solid;}
+  .duo .seg.ext{background:#eef7ff;border-color:#cfe4f8;}
+  .duo .seg.int{background:#fbf2e8;border-color:#f0d8c8;}
+  .duo .seg .lbl{font-size:8.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px;}
+  .duo .seg.ext .lbl{color:#1f5fa6;}
+  .duo .seg.int .lbl{color:#9a4a23;}
+  .duo .seg .txt{font-size:10.5px;line-height:1.4;}
+  .duo .seg .txt.na{color:var(--muted);font-style:italic;}
+  .duo .seg ul.mini{padding-left:14px;margin:0;}
+  .duo .seg ul.mini li{margin-bottom:3px;}
+
+  .scn{display:flex;flex-wrap:wrap;gap:4px;}
+  .scn b{font-size:9.5px;font-weight:600;padding:3px 7px;border-radius:30px;background:#eef2f9;color:#39455f;border:1px solid #e2e8f3;}
+  .tp{display:flex;flex-wrap:wrap;gap:3px;}
+  .tp span{font-size:9px;font-weight:600;background:#eaf4ff;color:#1f6fb0;padding:2px 6px;border-radius:5px;border:1px solid #d4e8fb;}
+  .sys{display:flex;flex-wrap:wrap;gap:3px;}
+  .sys span{font-size:9px;font-weight:700;background:#f1ebff;color:#5b3bbd;padding:2px 6px;border-radius:5px;border:1px solid #ddd0fa;}
+
+  /* As-Is / To-Be split */
+  .split{display:flex;flex-direction:column;gap:7px;}
+  .blk{border-radius:8px;padding:7px 8px;border:1px solid;}
+  .blk .bh{font-size:8.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:5px;}
+  .blk .bh::before{content:"";width:7px;height:7px;border-radius:50%;}
+  .blk.asis{background:var(--asis-soft);border-color:#f0d8c8;}
+  .blk.asis .bh{color:var(--asis);} .blk.asis .bh::before{background:var(--asis);}
+  .blk.tobe{background:var(--tobe-soft);border-color:#cfe4f8;}
+  .blk.tobe .bh{color:var(--tobe);} .blk.tobe .bh::before{background:var(--tobe);}
+  .blk.asis ul.mini li::marker{color:var(--asis);}
+  .blk.tobe ul.mini li::marker{color:var(--tobe);}
+  .roletag{display:inline-block;font-size:8px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;
+    padding:2px 5px;border-radius:4px;margin-bottom:4px;}
+  .asis .roletag{color:#9a4a23;background:#f5dccb;}
+  .tobe .roletag{color:#1f5fa6;background:#d6e8fa;}
+
+  /* pain */
+  .pain-cell{background:#fdf1f1;color:#7d2e2e;} .pain-cell ul.mini li::marker{color:var(--pain);}
+  /* emotion */
+  .emo{display:flex;align-items:center;gap:7px;} .emoface{font-size:22px;line-height:1;}
+  .emo small{font-size:9.5px;color:var(--muted);} .emo-label{font-weight:600;font-size:10px;}
+  /* time */
+  .time-cell{background:#f0faf4;color:var(--ink);}
+  .time-cell .big{font-family:'Fraunces';font-size:14px;display:block;line-height:1.05;margin-bottom:2px;font-weight:600;color:var(--ink);}
+  .time-cell small{color:var(--muted);font-size:9.5px;display:block;}
+  .time-cell .vs{display:block;font-size:9.5px;margin-top:4px;color:var(--asis);font-weight:600;line-height:1.3;}
+  .time-cell .vs b{color:var(--tobe);}
+  /* improve / opp */
+  .improve-cell{background:#fff8ec;} .improve-cell ul.mini li::marker{color:var(--improve);}
+  .opp-cell{background:#f4efff;color:#4a3293;} .opp-cell ul.mini li::marker{color:var(--opp);}
+
+  .rl-pain{background:linear-gradient(135deg,#fde2e2,#fbcccc);} .rl-pain .rl-t{color:#a83a3a;}
+  .rl-emo{background:linear-gradient(135deg,#e3f2ff,#cfe8fd);} .rl-emo .rl-t{color:#1f6fb0;}
+  .rl-act{background:linear-gradient(135deg,#fbf2e8,#f4e2cf);} .rl-act .rl-t{color:#9a5a2a;}
+  .rl-sys{background:linear-gradient(135deg,#f1ebff,#ddd0fa);} .rl-sys .rl-t{color:#5b3bbd;}
+  .rl-time{background:linear-gradient(135deg,#d9f6e6,#bdedcf);} .rl-time .rl-t{color:#157a52;}
+  .rl-improve{background:linear-gradient(135deg,#fdeccb,#f8dca0);} .rl-improve .rl-t{color:#8a5d10;}
+  .rl-opp{background:linear-gradient(135deg,#e7ddff,#d3c2fb);} .rl-opp .rl-t{color:#5b3bbd;}
+
+  /* curve */
+  .curve-wrap{max-width:2500px;margin:26px auto 0;}
+  .curve-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 24px 10px;box-shadow:0 24px 60px -42px rgba(28,36,51,.4);}
+  .curve-card h2{font-family:'Fraunces';font-weight:600;font-size:19px;margin:0 0 2px;}
+  .curve-card p{color:var(--muted);font-size:12.5px;margin:0 0 12px;}
+  .curve-svg{width:100%;height:320px;display:block;}
+
+  .insight{max-width:2500px;margin:22px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .icard{border-radius:16px;padding:16px 18px;border:1px solid;}
+  .icard.asis{background:var(--asis-soft);border-color:#f0d8c8;}
+  .icard.tobe{background:var(--tobe-soft);border-color:#cfe4f8;}
+  .icard h3{font-family:'Fraunces';margin:0 0 8px;font-size:16px;}
+  .icard.asis h3{color:var(--asis);} .icard.tobe h3{color:var(--tobe);}
+  .icard ul{margin:0;padding-left:16px;font-size:12px;line-height:1.5;color:var(--ink);}
+  .icard li{margin-bottom:4px;}
+
+  footer.note{max-width:2500px;margin:22px auto 0;font-size:11px;color:var(--muted);line-height:1.5;}
+
+  @media print{
+    body{background:#fff;} .board-scroll{overflow:visible;} .board{box-shadow:none;min-width:0;}
+    .tip{display:none;} .wrap{padding:6px;} @page{size:A1 landscape;margin:6mm;}
+    .insight{grid-template-columns:1fr 1fr;} .jobs{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">Customer Journey Map · Banco de Bogotá · v3 (PDF integrado)</div>
+  <h1>Radicación y Aprobación · <span class="a">Crédito Comercial</span></h1>
+  <p class="sub">Mapa completo del proceso de originación de crédito comercial — desde la preparación de la campaña hasta la activación del proyecto crediticio en CEC — en doble perspectiva (<b>cliente PJ</b> y <b>Banco</b>) y comparando el <b>flujo tradicional manual (As-Is)</b> con el <b>flujo digital de autogestión Fase 01 (To-Be)</b>.</p>
+  <div class="meta">
+    <span><b>Proceso:</b> Originación · Radicación · Aprobación</span>
+    <span><b>Etapas:</b> 7</span>
+    <span><b>Sistemas:</b> CRM · GPO · Mantiz · CEC · SharePoint · Onbase · SARC</span>
+    <span><b>Versión:</b> 3.0 · integrada con PDF Monsters Inc</span>
+  </div>
+  <div class="legend">
+    <span><i class="swatch" style="background:var(--asis)"></i>As-Is · Flujo tradicional (manual)</span>
+    <span><i class="swatch" style="background:var(--tobe)"></i>To-Be · Flujo digital Fase 01 (autogestión)</span>
+  </div>
+</header>
+
+<!-- Job stories destacadas -->
+<div class="jobs">
+  <div class="job cli">
+    <div class="who">🏢 Cliente · Job story</div>
+    <p>Cuando <b>mi empresa necesita liquidez para operar o crecer</b>, quiero <b>acceder a un crédito de forma ágil, digital y clara</b> para <b>mantener mi negocio en marcha sin descapitalizarme ni perder oportunidades</b>.</p>
+  </div>
+  <div class="job com">
+    <div class="who">🤵 Comercial · Job story</div>
+    <p>Cuando <b>un cliente necesita financiación</b>, quiero <b>radicar y gestionar su solicitud de forma digital y trazable</b> para <b>aprobar más operaciones en menos tiempo y construir una relación de largo plazo</b>.</p>
+  </div>
+</div>
+
+<div class="tipwrap"><div class="tip">💡 Desliza horizontal para recorrer las 7 etapas · Cada celda de actividades compara <b>As-Is</b> (terracota, lo que pasa hoy) y <b>To-Be</b> (azul, flujo digital de Fase 01) · Imprime en A1 horizontal para una sola página.</div></div>
+
+<div class="board-scroll">
+<div class="board">
+
+  <!-- PHASE HEADER -->
+  <div class="corner"><span class="ct">Crédito Comercial</span><span class="cs">Originación · 7 etapas</span></div>
+  <div class="phase ph1"><div class="pn">Etapa 1</div><div class="pt">Preparación de clientes para campaña</div><div style="font-size:9.5px;font-weight:500;opacity:.92;margin-top:5px;line-height:1.25;font-style:italic;">Aplica únicamente para Fase 01, campaña para flujo digital</div></div>
+  <div class="phase ph2"><div class="pn">Etapa 2</div><div class="pt">Cargue de campañas</div></div>
+  <div class="phase ph3"><div class="pn">Etapa 3</div><div class="pt">Ofrecimiento comercial</div></div>
+  <div class="phase ph4"><div class="pn">Etapa 4</div><div class="pt">Vinculación al Banco</div></div>
+  <div class="phase ph5"><div class="pn">Etapa 5</div><div class="pt">Documentación y radicación</div></div>
+  <div class="phase ph6"><div class="pn">Etapa 6</div><div class="pt">Revisión documental</div></div>
+  <div class="phase ph7"><div class="pn">Etapa 7</div><div class="pt">Asignación y análisis de crédito</div></div>
+
+  <!-- ESCENARIO -->
+  <div class="rowlabel"><span class="rl-ico">🎬</span><span class="rl-t">Escenario</span><span class="rl-s">Momentos de la etapa</span></div>
+  <div class="cell"><div class="scn"><b>Análisis de base por Riesgo</b><b>Filtrado y archivo final Fase 01</b><b>Selección de potenciales</b></div></div>
+  <div class="cell"><div class="scn"><b>Recepción de base</b><b>Validación de estructura</b><b>Corrección de inconsistencias</b><b>Cargue en el flujo</b></div></div>
+  <div class="cell"><div class="scn"><b>Referenciación / EMIS / Google</b><b>Cliente manifiesta necesidad</b><b>Agendamiento visita</b><b>Visita y oferta por segmento</b><b>Contacto para autogestión</b></div></div>
+  <div class="cell"><div class="scn"><b>Listas de prevención</b><b>Firmas y documentación</b><b>Creación cliente en CRM</b><b>Verificación de identidad + OTP</b></div></div>
+  <div class="cell"><div class="scn"><b>Recepción de docs por producto</b><b>Revisa, escanea y alista</b><b>Radica según segmento</b><b>Selección de monto y producto</b></div></div>
+  <div class="cell"><div class="scn"><b>Revisión por Operaciones GDI</b><b>Revisión por Gestión de crédito</b><b>Validación documental digital</b><b>Causales de devolución</b></div></div>
+  <div class="cell"><div class="scn"><b>Asignación por coordinador</b><b>Análisis y propuesta de PC</b><b>Revisión coordinador</b><b>Comité de crédito</b><b>Indexación Onbase · Activación CEC</b></div></div>
+
+  <!-- ANTECEDENTES -->
+  <div class="rowlabel"><span class="rl-ico">📌</span><span class="rl-t">Antecedentes</span><span class="rl-s">Contexto que origina la etapa</span></div>
+  <div class="cell">El Banco quiere disparar campañas a clientes PJ con potencial crediticio basado en información transaccional y de comportamiento.</div>
+  <div class="cell">Riesgo entrega la base al equipo Monsters para que la cargue al flujo de autogestión.</div>
+  <div class="cell">El cliente expresa necesidad (activo/pasivo). El comercial perfila y ofrece el producto adecuado por segmento.</div>
+  <div class="cell">Para operar con el Banco, el cliente PJ debe estar vinculado: documentación, reglamentos, firmas y registro en CRM.</div>
+  <div class="cell">Vinculado el cliente, debe entregar la documentación específica del producto para que pueda ser radicado para análisis.</div>
+  <div class="cell">Antes de pasar a análisis, la documentación debe revisarse para confirmar completitud y validez.</div>
+  <div class="cell">Con documentación OK, se asigna a un analista, se elabora la propuesta de PC y se lleva a comité para decisión.</div>
+
+  <!-- NECESIDAD -->
+  <div class="rowlabel"><span class="rl-ico">🎯</span><span class="rl-t">Necesidad del usuario</span><span class="rl-s">¿Qué necesita?</span></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt"><ul class="mini"><li>Que el Banco identifique de manera proactiva sus necesidades de financiación, sin requerir gestión adicional por su parte.</li><li>Disponer de un crédito en cuestión de minutos, alineado con la inmediatez que requiere su operación.</li></ul></div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Contar con modelos analíticos y fuentes de información robustas que permitan identificar prospectos con potencial crediticio y conformar la base de campaña Fase 01.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt na">No aplica para esta etapa.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Disponer de bases de clientes correctamente estructuradas y validadas, que permitan ejecutar el cargue en el flujo de manera oportuna y sin reprocesos.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt">Recibir una oferta personalizada, con condiciones claras y comparables, que responda efectivamente a la necesidad del momento.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Contar con información consolidada del cliente y con herramientas que permitan estructurar y presentar una oferta acorde con el segmento y la estrategia comercial.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt">Vincularse al Banco una única vez, de forma ágil y digital, sin reenviar documentación ni firmar de manera presencial.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Disponer de un proceso de vinculación digital integrado con CRM que evite la doble digitación y agilice el alistamiento del cliente.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt">Entregar la documentación específica del producto a través de un único canal, sin reprocesos ni reenvíos por múltiples medios.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Contar con un flujo de radicación unificado que reemplace los cuatro canales actuales (Mantiz, GPO, correo electrónico y SharePoint) y minimice el tiempo de alistamiento.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt">Que la documentación sea revisada en el menor tiempo posible y que, en caso de devolución, se comunique con causales claras y específicas.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Disponer de una bandeja única de revisión con causales estandarizadas, que evite la doble validación entre Operaciones GDI y Gestión de Crédito.</div></div>
+  </div></div>
+
+  <div class="cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt">Recibir una decisión de crédito en tiempos razonables y predecibles, con trazabilidad sobre el estado de su solicitud.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><div class="txt">Acceder a información consolidada y a herramientas de análisis que faciliten la elaboración del proyecto crediticio, optimicen los tiempos de comité y permitan ampliar la cobertura de aprobación automática (Fase 01).</div></div>
+  </div></div>
+
+  <!-- OBJETIVO -->
+  <div class="rowlabel"><span class="rl-ico">🧭</span><span class="rl-t">Objetivo del usuario<br>(de flujo)</span><span class="rl-s">Meta concreta</span></div>
+  <div class="cell"><ul class="mini"><li>Ser identificado como prospecto y recibir la oferta correspondiente.</li><li>Obtener una respuesta de aprobación en minutos, conocer su capacidad de endeudamiento y acceder al desembolso de manera inmediata.</li></ul></div>
+  <div class="cell">Recibir la invitación a la campaña en su correo.</div>
+  <div class="cell">Aceptar una oferta que se ajuste a su necesidad.</div>
+  <div class="cell">Quedar vinculado al Banco y habilitado para operar.</div>
+  <div class="cell">Dejar la solicitud radicada para análisis.</div>
+  <div class="cell">Pasar la revisión documental sin devoluciones.</div>
+  <div class="cell">Obtener la aprobación y activación del proyecto crediticio.</div>
+
+  <!-- EXPECTATIVA -->
+  <div class="rowlabel"><span class="rl-ico">✨</span><span class="rl-t">Expectativa</span><span class="rl-s">Lo que espera vivir</span></div>
+  <div class="cell">"Espero que el contacto comercial aporte valor y que se me brinden respuestas oportunas para conocer, en el menor tiempo posible, si cuento con un cupo aprobado y por qué monto."</div>
+  <div class="cell">"Que el correo sea claro y me lleve a un proceso simple."</div>
+  <div class="cell">"Una propuesta personalizada, no un catálogo."</div>
+  <div class="cell">"Una vinculación 100% digital: solo los documentos que exige la norma, no todo lo que se les ocurra pedir. Para vincularme al Banco y para tramitar el crédito, espero entregar únicamente lo mínimo requerido por regulación."</div>
+  <div class="cell">"Subir mis documentos en un solo lugar, no por correo."</div>
+  <div class="cell">"Si algo está mal, que me lo digan claro y rápido."</div>
+  <div class="cell">"Ver mi solicitud en tiempo real y recibir el resultado."</div>
+
+  <!-- TOUCHPOINTS -->
+  <div class="rowlabel"><span class="rl-ico">🔗</span><span class="rl-t">Touchpoints</span><span class="rl-s">Canales / puntos de contacto</span></div>
+  <div class="cell"><div class="tp"><span>Base transaccional</span><span>Archivo Fase 01</span><span>Riesgo de crédito</span><span>Flujo digital de empresas</span><span>Correos</span><span>Contacto con el comercial en el ofrecimiento</span></div></div>
+  <div class="cell"><div class="tp"><span>Correo a Monsters</span><span>Flujo digital</span><span>Validación de estructura</span></div></div>
+  <div class="cell"><div class="tp"><span>Referenciación</span><span>EMIS</span><span>Google</span><span>Visita comercial</span><span>WhatsApp / correo</span><span>Cotización</span></div></div>
+  <div class="cell"><div class="tp"><span>Listas prevención</span><span>Pagaré</span><span>Tarjeta firmas</span><span>Reglamentos</span><span>CRM</span><span>Login + OTP</span></div></div>
+  <div class="cell"><div class="tp"><span>Correo / WhatsApp</span><span>GPO</span><span>Mantiz</span><span>SharePoint</span><span>Portal autogestión</span></div></div>
+  <div class="cell"><div class="tp"><span>Operaciones GDI</span><span>Gestión de crédito</span><span>Bandeja revisor</span><span>Causales devolución</span></div></div>
+  <div class="cell"><div class="tp"><span>CEC</span><span>Onbase</span><span>Cifin · Datacrédito</span><span>Comité de crédito</span><span>SARC</span></div></div>
+
+  <!-- SISTEMAS -->
+  <div class="rowlabel rl-sys"><span class="rl-ico">💻</span><span class="rl-t">Sistemas / herramientas</span><span class="rl-s">Aplicativos involucrados</span></div>
+  <div class="cell"><div class="sys"><span>BI Riesgo</span><span>Excel</span><span>Flujo digital empresas (Cargue de la campaña)</span></div></div>
+  <div class="cell"><div class="sys"><span>Flujo digital</span><span>Correo</span></div></div>
+  <div class="cell"><div class="sys"><span>EMIS</span><span>Google</span><span>CRM</span><span>Cotizador</span></div></div>
+  <div class="cell"><div class="sys"><span>CRM</span><span>Listas prevención</span><span>Autenticación Motores</span></div></div>
+  <div class="cell"><div class="sys"><span>Mantiz</span><span>GPO</span><span>Correo</span><span>SharePoint</span><span>Portal</span></div></div>
+  <div class="cell"><div class="sys"><span>GPO/Mantiz</span><span>Correo genérico</span><span>Bandeja digital</span></div></div>
+  <div class="cell"><div class="sys"><span>CEC</span><span>Onbase</span><span>Cifin</span><span>Datacrédito</span><span>SARC</span><span>Web consultas</span></div></div>
+
+  <!-- DOLORES CLIENTE -->
+  <div class="rowlabel rl-pain"><span class="rl-ico">⚠️</span><span class="rl-t">Dolores / brechas</span><span class="rl-s">Fricciones del usuario</span></div>
+
+  <!-- E1 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>No sabe que está siendo evaluado ni que existe una oferta potencial para su empresa.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>Se adquiere información externa porque no se cuenta con ella dentro del Banco.</li><li>El flujo no contempla entrada para clientes de mercado natural por dependencia de compra de información.</li></ul></div>
+  </div></div>
+
+  <!-- E2 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><div class="txt na">No aplica directamente para esta etapa.</div></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>Las bases no siempre llegan con la estructura previamente definida, lo que genera múltiples validaciones y reprocesos.</li><li>Cuando la base contiene inconsistencias, la oferta no se dispara al cliente en los tiempos esperados.</li><li>El cargue de campañas depende del equipo de desarrollo del Squad, lo que evidencia la necesidad de automatizar dicho proceso.</li></ul></div>
+  </div></div>
+
+  <!-- E3 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>Información presentada en lenguaje bancario, difícil de interpretar.</li><li>Múltiples reuniones para entender la oferta.</li><li>Las campañas que se ofertan no son atractivas para el cliente, por lo que no se genera un interés genuino.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>Los clientes no abren los correos por desconfianza o por las continuas alertas de falsificación de correos electrónicos, lo que impide que se enteren de las ofertas vigentes.</li><li>No hay retroalimentación del resultado del ofrecimiento de la campaña (por ejemplo: tasa, monto, falta de interés del cliente, etc.).</li></ul></div>
+  </div></div>
+
+  <!-- E4 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>Firmas físicas y tarjeta de firmas de manera manual.</li><li>Reglamentos largos y dispersos.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>La vinculación se realiza de forma tradicional: es un proceso demasiado físico, presencial y con alto tiempo en sitio del gerente o ejecutivo comercial.</li><li>Doble digitación en CRM (15 min manuales); traslado uno a uno de la información.</li></ul></div>
+  </div></div>
+
+  <!-- E5 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>Envío de documentos por correo/WhatsApp sin acuse de recibido.</li><li>Repetición de información ya entregada anteriormente.</li><li>Los documentos siempre deben ser entregados por el cliente; no hay fuentes externas confiables que permitan obtener información de manera autónoma.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>Cuatro canales de radicación distintos según segmento generan fragmentación y reprocesos.</li><li>El comercial debe recibir, escanear y alistar documentos manualmente (30 min).</li></ul></div>
+  </div></div>
+
+  <!-- E6 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>Devoluciones sin causal clara.</li><li>No sabe en qué punto está su solicitud.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>Doble revisión documental entre Operaciones GDI y Gestión de Crédito con checklists distintos por segmento.</li><li>La revisión documental es manual, lo que evidencia una falta de automatización con tecnologías emergentes (OCR, Inteligencia Artificial, etc.).</li></ul></div>
+  </div></div>
+
+  <!-- E7 dolores -->
+  <div class="cell pain-cell"><div class="duo">
+    <div class="seg ext"><div class="lbl">Cliente externo</div><ul class="mini"><li>Standby de 3 días si la documentación está incompleta por segunda vez.</li><li>Devolución definitiva si no corrige.</li><li>Sin trazabilidad del estado del comité.</li></ul></div>
+    <div class="seg int"><div class="lbl">Cliente interno</div><ul class="mini"><li>El coordinador asigna solicitudes manualmente ~3 veces al día, generando cuellos de botella.</li><li>Análisis manual en múltiples aplicativos (CEC, Onbase, CRM, Cifin, Datacrédito) sin integración.</li><li>Ciclo de re-trabajo ante documentación incompleta consume tiempo del analista y del comercial.</li></ul></div>
+  </div></div>
+
+  <!-- EMOCION CLIENTE -->
+  <div class="rowlabel rl-emo"><span class="rl-ico">🙂</span><span class="rl-t">Curva experiencia<br>· Cliente</span><span class="rl-s">Emoción de la empresa</span></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">😐</span><div><div class="emo-label">Neutro</div><small>no sabe que existe</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">🙂</span><div><div class="emo-label">Curioso</div><small>recibe campaña</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">🙂</span><div><div class="emo-label">Esperanzado</div><small>recibe oferta</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">😟</span><div><div class="emo-label">Frustrado / 🙂 ToBe</div><small>firmas vs OTP</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">😣</span><div><div class="emo-label">Ansioso</div><small>tantos canales</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">😟</span><div><div class="emo-label">Inquieto</div><small>espera respuesta</small></div></div></div>
+  <div class="cell" style="background:#f6fbff"><div class="emo"><span class="emoface">😀</span><div><div class="emo-label">Aliviado</div><small>aprobación</small></div></div></div>
+
+  <!-- EMOCION BANCO -->
+  <div class="rowlabel rl-emo"><span class="rl-ico">🧑‍💼</span><span class="rl-t">Curva experiencia<br>· Banco</span><span class="rl-s">Emoción del equipo</span></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">🙂</span><div><div class="emo-label">Analítico</div><small>Riesgo arma base</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">😐</span><div><div class="emo-label">Operativo</div><small>Monsters carga</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">🙂</span><div><div class="emo-label">Proactivo</div><small>prospecta</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">😣</span><div><div class="emo-label">Tedioso</div><small>doble digitación CRM</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">😡</span><div><div class="emo-label">Saturado</div><small>4 canales según segmento</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">😐</span><div><div class="emo-label">Vigilante</div><small>doble revisión</small></div></div></div>
+  <div class="cell" style="background:#f9f7ff"><div class="emo"><span class="emoface">🙂</span><div><div class="emo-label">Riguroso</div><small>análisis profundo</small></div></div></div>
+
+  <!-- ACTIVIDADES -->
+  <div class="rowlabel rl-act"><span class="rl-ico">🏦</span><span class="rl-t">Actividades</span><span class="rl-s">Quién hace qué</span></div>
+
+  <!-- E1 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="roletag">Riesgo de crédito</span><ul class="mini"><li>Analiza base de clientes y filtra por comportamiento transaccional.</li><li>Genera archivo final con potenciales para campaña.</li><li>No existe cargue automático; la base se gestiona manualmente.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Riesgo de crédito</span><ul class="mini"><li>Genera la base de Fase 01 con estructura validada para el flujo automático.</li><li>Entrega la base al equipo de desarrollo (Monsters) para cargue en el flujo de autogestión.</li></ul></div>
+  </div></div>
+
+  <!-- E2 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="roletag">No aplica</span><ul class="mini"><li>No existe etapa de cargue en flujo digital; la campaña se gestiona por canales manuales.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Equipo de desarrollo (Monsters)</span><ul class="mini"><li>Recibe la base de Riesgo de Crédito.</li><li>Valida la estructura. Si no cumple → devuelve por correo con inconsistencias para corrección.</li><li>Si cumple → realiza el cargue en el flujo de autogestión del cliente.</li></ul></div>
+  </div></div>
+
+  <!-- E3 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="roletag">Comercial · Especialista</span><ul class="mini"><li>Identifica clientes por referenciación; consulta EMIS y Google.</li><li>Indaga datos de contacto, agenda visita y coordina al especialista cuando aplica.</li><li>Realiza la visita comercial y envía oferta según segmento y estrategia.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Comercial · Cliente</span><ul class="mini"><li>Comercial contacta al cliente PJ para informar la campaña y guiarlo en la autogestión.</li><li>Cliente accede al flujo desde el botón "Solicitar ahora" del correo o el enlace compartido.</li></ul></div>
+  </div></div>
+
+  <!-- E4 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional · 60 min + 15 min CRM</div><span class="roletag">Comercial</span><ul class="mini"><li>Revisión en listas de prevención.</li><li>Solicitud de firmas y documentación (manual, 60 min): VCL_FOR_023, VCL_FOR_024, VCL_FOR_053; pagaré contragarantía; firmas físicas.</li><li>Reglamentos PJ (cuenta ahorros, corriente, débito, crédito, portal empresarial, autorización consulta).</li><li>Creación del cliente en CRM de forma manual (15 min): traslado uno a uno de la información de SSF y documentos.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Cliente · Autogestión</span><ul class="mini"><li>Verificación de identidad digital ("Login") mediante autenticación con motores (OTP).</li><li>Selecciona monto a utilizar, producto y características.</li><li>Distribuye el monto según lo aprobado por el motor.</li><li>Solo se solicitan los documentos mínimos exigidos por norma, tanto para vinculación como para la solicitud de crédito.</li></ul></div>
+  </div></div>
+
+  <!-- E5 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional · 3 a 5 días + 30 min</div><span class="roletag">Comercial</span><ul class="mini"><li>Recibe documentos del cliente (3-5 días, por correo o WhatsApp).</li><li>Revisa, escanea y alista para radicación (30 min).</li><li><b>Radica por 4 canales según segmento:</b> Red/pequeña 1-2: Mantiz · Mediana/pyme 3-4: GPO o Mantiz · Empresarial: correo electrónico · Banca Gobierno: GPO + SharePoint.</li><li>Productos pasivo y cash tienen rutas propias.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Cliente · Autogestión</span><ul class="mini"><li>Cliente realiza el cargue de documentos directamente en línea.</li><li>Sin intermediación del comercial.</li><li>Radicación queda registrada en el flujo digital de forma inmediata.</li></ul></div>
+  </div></div>
+
+  <!-- E6 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional · 6 min + 30 min</div><span class="roletag">Operaciones GDI · Gestión de Crédito</span><ul class="mini"><li><b>Operaciones GDI</b> (Nelcy Boada / Farid Bernal): revisa documentos en aplicación (6 min, GPO/Mantiz).</li><li><b>Gestión de Crédito</b> (Oscar Bagget): revisa por correo electrónico (30 min, correo genérico).</li><li>Checklist varía por segmento → genera reprocesos.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Comercial · Revisor digital</span><ul class="mini"><li>Ingresa al módulo y verifica condiciones del cliente.</li><li>Valida cada documento en la bandeja digital.</li><li>Si hay inconsistencias: marca causales por documento, registra motivo y notifica al cliente.</li><li>Si documentación conforme: diligencia conocimiento del cliente y habilita envío a Crédito.</li></ul></div>
+  </div></div>
+
+  <!-- E7 -->
+  <div class="cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional · 2 a 4 horas</div><span class="roletag">Coordinador · Analista · Comité · Gestión de Crédito</span><ul class="mini"><li><b>Coordinador</b>: asigna solicitudes en CEC estado "Radicado" según centro de costo (~3 veces/día).</li><li><b>Analista</b>: revisa en CEC, Onbase, CRM, Cifin, Datacrédito (2-4h). Si docs incompletos 1ª vez → comercial corrige y reenvía. Si 2ª vez → standby 3 días → devolución definitiva.</li><li>Define máscara según novedad/segmento y elabora propuesta de PC.</li><li>Coordinador revisa; si conforme → agenda Comité según niveles de atribución.</li><li>Comité: analista expone propuesta → Aprobado: macro carga info en CEC, genera PDF y recoge firmas → Rechazado: se comunica y cierra.</li><li><b>Gestión de Crédito</b>: indexa en Onbase y activa PC en CEC → FIN.</li></ul></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="roletag">Motor · Coordinador · Gestión de Crédito</span><ul class="mini"><li>La solicitud queda como <b>reclasificación</b>: el motor otorga la aprobación del cupo.</li><li>En paralelo: <b>Gestión de Crédito</b> verifica que el cliente esté en base Fase 01 y que se haya generado el acta de aprobación.</li><li><b>Coordinador</b> asigna las solicitudes de reclasificación con consecutivo CDA.</li><li>Cierre y activación automática en el sistema.</li></ul></div>
+  </div></div>
+
+  <!-- TIEMPOS -->
+  <div class="rowlabel rl-time"><span class="rl-ico">⏱️</span><span class="rl-t">Tiempos</span><span class="rl-s">Duración estimada por etapa</span></div>
+
+  <!-- E1 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">No aplica</span></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">Cada 3 meses</span><small>según ciclo de campaña</small></div>
+  </div></div>
+
+  <!-- E2 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">No aplica</span></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">1 día</span><small>incluyendo revisiones de cumplimiento de estructura</small></div>
+  </div></div>
+
+  <!-- E3 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">Variable</span><small>dependiendo de la gestión comercial</small></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">Variable</span><small>dependiendo de la gestión comercial</small></div>
+  </div></div>
+
+  <!-- E4 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">75 minutos</span><small>60 min vinculación + 15 min creación en CRM</small></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">Flujo tradicional</span><small>esta etapa se realiza por el flujo tradicional</small></div>
+  </div></div>
+
+  <!-- E5 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">3 a 5 días</span><small>recepción de documentos + radicación</small></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">25 minutos</span><small>cargue autogestionado en línea</small></div>
+  </div></div>
+
+  <!-- E6 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">4 horas a 1 día</span><small>dependiendo de la demanda</small></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">10 minutos</span><small>revisión en bandeja digital</small></div>
+  </div></div>
+
+  <!-- E7 tiempos -->
+  <div class="cell time-cell"><div class="split">
+    <div class="blk asis"><div class="bh">Flujo tradicional</div><span class="big">1 día a 3,5 semanas</span><small>varía dependiendo del segmento</small></div>
+    <div class="blk tobe"><div class="bh">Flujo digital · Fase 01</div><span class="big">Aprobación motor: 2 min</span><small>Reclasificación: ANS 3 días · Activación PC: 2 horas</small></div>
+  </div></div>
+
+  <!-- PUNTOS DE MEJORA -->
+  <div class="rowlabel rl-improve"><span class="rl-ico">🔧</span><span class="rl-t">Puntos de mejora</span><span class="rl-s">Dónde intervenir</span></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Modelos de propensión más finos.</li><li>Bases segmentadas por necesidad real (liquidez, plazo).</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Validación de estructura automática.</li><li>Tablero de salud de campañas.</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Cotizador autoservicio.</li><li>Eliminar consultas dispersas (Google, EMIS).</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Firmas digitales y reglamentos consolidados.</li><li>Eliminar doble digitación en CRM.</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Unificar los 4 caminos de radicación por segmento en un único flujo digital.</li><li>Eliminar WhatsApp/correo como canal de docs.</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Consolidar revisión GDI + Gestión de crédito en un solo paso.</li><li>Causales estandarizadas y visibles al cliente.</li></ul></div>
+  <div class="cell improve-cell"><ul class="mini"><li>Asistencia al analista con pre-validaciones automáticas (Cifin, Datacrédito).</li><li>Trazabilidad del comité al cliente.</li><li>Más operaciones por motor (extender Fase 01).</li></ul></div>
+
+  <!-- OPORTUNIDAD -->
+  <div class="rowlabel rl-opp"><span class="rl-ico">🚀</span><span class="rl-t">Oportunidad</span><span class="rl-s">Hipótesis de valor</span></div>
+  <div class="cell opp-cell"><ul class="mini"><li>Pre-aprobaciones masivas con motor de decisión.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li>Cargue de campañas sin intervención manual.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li>Comercial enfocado en cierre, no en buscar info dispersa.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li><b>Vinculación 100% digital</b> con motor de autenticación.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li><b>Cargue documental autogestionado</b> que reemplace los 4 caminos manuales.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li>Revisión digital única con causales claras y notificación automática.</li></ul></div>
+  <div class="cell opp-cell"><ul class="mini"><li><b>Extender Fase 01</b>: más segmentos por motor → reducir comité a casos excepcionales y bajar tiempos a minutos.</li></ul></div>
+
+</div>
+</div>
+
+<!-- CURVA -->
+<div class="curve-wrap">
+  <div class="curve-card">
+    <h2>Curva de experiencia · As-Is vs To-Be · 7 etapas</h2>
+    <p>El proceso actual (As-Is) cae fuerte en <b>vinculación</b> (firmas, doble digitación CRM) y especialmente en <b>radicación</b> (4 caminos manuales según segmento). El flujo digital de Fase 01 (To-Be) suaviza esos valles con autogestión + motor de aprobación; el resto de los segmentos sigue con la fricción tradicional hasta extender la digitalización.</p>
+    <svg class="curve-svg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+      <g stroke="#e7ecf5" stroke-width="1">
+        <line x1="0" y1="50" x2="1000" y2="50"/><line x1="0" y1="140" x2="1000" y2="140"/><line x1="0" y1="230" x2="1000" y2="230"/>
+      </g>
+      <g font-family="Archivo" font-size="10" fill="#9aa4b6">
+        <text x="6" y="46">😀 alto</text><text x="6" y="136">😐 neutro</text><text x="6" y="226">😟 bajo</text>
+      </g>
+      <g stroke="#eef2f9" stroke-width="1" stroke-dasharray="3 4">
+        <line x1="172" y1="20" x2="172" y2="255"/><line x1="315" y1="20" x2="315" y2="255"/><line x1="458" y1="20" x2="458" y2="255"/><line x1="600" y1="20" x2="600" y2="255"/><line x1="742" y1="20" x2="742" y2="255"/><line x1="885" y1="20" x2="885" y2="255"/>
+      </g>
+      <!-- As-Is curve -->
+      <path d="M100,138 C160,130 150,110 244,110 C320,110 320,95 386,95 C440,95 440,185 528,220 C580,235 600,232 670,228 C730,224 740,195 814,192 C870,190 880,115 950,100"
+            fill="none" stroke="#c2613a" stroke-width="3.2" stroke-linecap="round"/>
+      <!-- To-Be curve -->
+      <path d="M100,125 C160,115 150,85 244,78 C320,72 320,62 386,58 C440,55 440,95 528,100 C580,104 600,115 670,115 C730,115 740,72 814,66 C870,62 880,55 950,50"
+            fill="none" stroke="#2f7fd6" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="2 6"/>
+      <g fill="#c2613a"><circle cx="100" cy="138" r="4"/><circle cx="244" cy="110" r="4"/><circle cx="386" cy="95" r="4"/><circle cx="528" cy="220" r="6"/><circle cx="670" cy="228" r="6"/><circle cx="814" cy="192" r="5"/><circle cx="950" cy="100" r="4"/></g>
+      <g fill="#2f7fd6"><circle cx="100" cy="125" r="4"/><circle cx="244" cy="78" r="4"/><circle cx="386" cy="58" r="4"/><circle cx="528" cy="100" r="4"/><circle cx="670" cy="115" r="4"/><circle cx="814" cy="66" r="4"/><circle cx="950" cy="50" r="4"/></g>
+      <text x="528" y="248" text-anchor="middle" font-family="Fraunces" font-size="10.5" fill="#c2613a" font-weight="600">▲ valle As-Is: vinculación manual</text>
+      <text x="670" y="262" text-anchor="middle" font-family="Fraunces" font-size="10.5" fill="#c2613a" font-weight="600">▲ valle As-Is: radicación por 4 canales</text>
+      <g font-family="Archivo" font-size="9.5" fill="#7a8497" text-anchor="middle">
+        <text x="100" y="285">Preparación</text><text x="244" y="285">Cargue</text><text x="386" y="285">Ofrecimiento</text><text x="528" y="285">Vinculación</text><text x="670" y="285">Radicación</text><text x="814" y="285">Revisión</text><text x="950" y="285">Análisis</text>
+      </g>
+      <g font-family="Archivo" font-size="10.5">
+        <rect x="700" y="18" width="14" height="4" rx="2" fill="#c2613a"/><text x="720" y="24" fill="#5b6577">As-Is</text>
+        <rect x="780" y="18" width="14" height="4" rx="2" fill="#2f7fd6"/><text x="800" y="24" fill="#5b6577">To-Be</text>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<!-- INSIGHT CARDS -->
+<div class="insight">
+  <div class="icard asis">
+    <h3>As-Is · cómo funciona hoy</h3>
+    <ul>
+      <li>Documentación llega por correo/WhatsApp y se radica por 4 caminos distintos según segmento (Mantiz, GPO, correo, SharePoint).</li>
+      <li>Vinculación con firmas físicas, tarjeta de firmas y reglamentos extensos; doble digitación en CRM (15 min manuales).</li>
+      <li>Doble revisión documental: Operaciones GDI en aplicación + Gestión de crédito por correo.</li>
+      <li>Análisis de crédito 2-4 horas; coordinador asigna 3 veces al día; comité según niveles de atribución.</li>
+      <li>Ciclo de re-trabajo: docs incompletos 2da vez → standby 3 días → devolución definitiva.</li>
+      <li>Cierre manual: PDF firmado, indexación en Onbase y activación en CEC.</li>
+    </ul>
+  </div>
+  <div class="icard tobe">
+    <h3>To-Be · Fase 01 · autogestión</h3>
+    <ul>
+      <li>Riesgo arma la base de Fase 01; Monsters valida estructura y carga al flujo de autogestión.</li>
+      <li>Comercial guía al cliente a entrar al flujo desde el correo o link compartido ("Solicitar ahora").</li>
+      <li>Cliente se autentica (Login + OTP), selecciona monto y producto, distribuye según lo aprobado por el motor y carga sus documentos.</li>
+      <li>Revisor digital con bandeja: valida, marca causales por documento y notifica al cliente; o envía a crédito.</li>
+      <li>Por ser Fase 01, la solicitud queda como reclasificación (el motor aprueba el cupo); el coordinador asigna en paralelo con Gestión de crédito.</li>
+      <li>Reduce tiempos de días/horas a minutos y elimina los 4 caminos manuales de radicación.</li>
+    </ul>
+  </div>
+</div>
+
+<footer class="note">
+  Versión 3.0 integrada con el PDF "Procesos Monsters Inc" (Etapas crédito comercial, flujo tradicional vs flujo Fase 01). Estructura: Fase · Escenario · Antecedentes · Necesidad · Objetivo · Expectativa · Touchpoints · Sistemas · Dolores · Curva de experiencia (Cliente y Banco) · Actividades As-Is/To-Be · Tiempos · Puntos de mejora · Oportunidad. Actores: Cliente PJ · Comercial (gerente y especialista) · Riesgo de crédito · Equipo Monsters · Operaciones GDI (Nelcy Boada / Farid Bernal) · Gestión de crédito (Oscar Bagget) · Coordinador · Analista · Comité de crédito. Contenido a validar con cada rol.
+</footer>
+
+</div>
+</body>
+</html>
